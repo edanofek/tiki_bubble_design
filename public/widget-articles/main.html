@@ -1,0 +1,113 @@
+<div class="flex flex-col gap-2">
+  {!header!}
+  <div class="horizontal-spacer my-2"></div>
+  <div class="flex flex-col gap-4">
+    <nav class="flex flex-row justify-between items-center">
+      <img
+        class="control-button navigate-left"
+        src="assets/left_arrow.svg"
+        alt="navigate left"
+      />
+      <b>Vitals</b>
+      <img
+        class="control-button navigate-right"
+        src="assets/right_arrow.svg"
+        alt="navigate right"
+      />
+    </nav>
+    <div class="flex flex-row justify-between">
+      <div class="flex flex-col gap-1">
+        <span class="flex flex-row gap-2 items-center">
+          <span class="secondary-text">Temp</span>
+          <b>{{vitals.temp.value}} &deg;C</b>
+          {{#vitals.temp.grown}}
+          <img src="assets/vitals-up.svg" alt="vitals went up" />
+          {{/vitals.temp.grown}}
+          <!--  -->
+          {{#vitals.temp.fallen}}
+          <img src="assets/vitals-down.svg" alt="vitals went down" />
+          {{/vitals.temp.fallen}}
+        </span>
+        <span class="flex flex-row gap-2 items-center">
+          <span class="secondary-text">BP</span>
+          <b>{{vitals.bp.value}}</b>
+          {{#vitals.bp.grown}}
+          <img src="assets/vitals-up.svg" alt="vitals went up" />
+          {{/vitals.bp.grown}}
+          <!--  -->
+          {{#vitals.bp.fallen}}
+          <img src="assets/vitals-down.svg" alt="vitals went down" />
+          {{/vitals.bp.fallen}}
+        </span>
+        <span class="flex flex-row gap-2 items-center">
+          <span class="secondary-text">BSA</span>
+          <b>{{vitals.bsa.value}}</b>
+          {{#vitals.bsa.grown}}
+          <img src="assets/vitals-up.svg" alt="vitals went up" />
+          {{/vitals.bsa.grown}}
+          <!--  -->
+          {{#vitals.bsa.fallen}}
+          <img src="assets/vitals-down.svg" alt="vitals went down" />
+          {{/vitals.bsa.fallen}}
+        </span>
+        <span class="flex flex-row gap-2 items-center">
+          <span class="secondary-text">Height</span>
+          <b>{{vitals.height.value}}</b>
+        </span>
+      </div>
+      <div class="vertical-spacer"></div>
+      <div class="flex flex-col gap-1">
+        <span class="flex flex-row gap-2 items-center">
+          <span class="secondary-text">Pulse</span>
+          <b>{{vitals.pulse.value}}</b>
+          {{#vitals.pulse.grown}}
+          <img src="assets/vitals-up.svg" alt="vitals went up" />
+          {{/vitals.pulse.grown}}
+          <!--  -->
+          {{#vitals.pulse.fallen}}
+          <img src="assets/vitals-down.svg" alt="vitals went down" />
+          {{/vitals.pulse.fallen}}
+        </span>
+        <span class="flex flex-row gap-2 items-center">
+          <span class="secondary-text">RESP</span>
+          <b>{{vitals.resp.value}}</b>
+          {{#vitals.resp.grown}}
+          <img src="assets/vitals-up.svg" alt="vitals went up" />
+          {{/vitals.resp.grown}}
+          <!--  -->
+          {{#vitals.resp.fallen}}
+          <img src="assets/vitals-down.svg" alt="vitals went down" />
+          {{/vitals.resp.fallen}}
+        </span>
+        <span class="flex flex-row gap-2 items-center">
+          <span class="secondary-text">BMI</span>
+          <b>{{vitals.bmi.value}}</b>
+          {{#vitals.bmi.grown}}
+          <img src="assets/vitals-up.svg" alt="vitals went up" />
+          {{/vitals.bmi.grown}}
+          <!--  -->
+          {{#vitals.bmi.fallen}}
+          <img src="assets/vitals-down.svg" alt="vitals went down" />
+          {{/vitals.bmi.fallen}}
+        </span>
+        <span class="flex flex-row gap-2 items-center">
+          <span class="secondary-text">Weight</span>
+          <b>{{vitals.weight.value}}lb</b>
+          {{#vitals.weight.grown}}
+          <img src="assets/vitals-up.svg" alt="vitals went up" />
+          {{/vitals.weight.grown}}
+          <!--  -->
+          {{#vitals.weight.fallen}}
+          <img src="assets/vitals-down.svg" alt="vitals went down" />
+          {{/vitals.weight.fallen}}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div></div>
+</div>
+<script>
+  const timerObject = document.querySelector(".timer-svg");
+  window.setTimerProgress =
+    timerObject.contentWindow.document.querySelector("svg").setProgress;
+</script>

@@ -1,0 +1,119 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+:root {
+  --widget-width: 280px;
+}
+
+.roboto > * {
+  font: "Roboto", sans-serif;
+}
+
+.widget-header {
+  background: url(/assets/header-backgrounds/1.png);
+  height: 112px;
+}
+
+.widget-main {
+  width: var(--widget-width);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.close-widget-header {
+  width: var(--widget-width);
+  clip-path: circle(0% at 93.6% 19%);
+}
+
+.close-widget-header.opened {
+  clip-path: circle(141.1% at 93.6% 19%);
+}
+
+.close-widget-header.opens {
+  animation-duration: 0.5s;
+  animation-name: close-showup-animation;
+  animation-fill-mode: forwards;
+}
+
+.close-widget-header.closes {
+  animation-duration: 0.5s;
+  animation-name: close-showup-animation;
+  animation-fill-mode: forwards;
+  animation-direction: reverse;
+}
+
+.mini-widget-container {
+  background: url(/assets/header-backgrounds/1.png);
+}
+
+.control-button {
+  cursor: pointer;
+}
+
+a:not(.no-a-decoration) {
+  color: #0075ff !important;
+  text-decoration: underline !important;
+}
+
+.horizontal-spacer {
+  height: 2px;
+  background: #e8e8e8;
+}
+
+.vertical-spacer {
+  width: 2px;
+  background: #e8e8e8;
+}
+
+.secondary-text {
+  color: #a7a7a7;
+}
+
+.widget-footer {
+  background: #cfecf0;
+  height: 30px;
+}
+
+.widget-last-visit {
+  color: #6aa9af;
+  font-size: 14px;
+}
+
+.medication-divider {
+  width: 20px;
+  height: 1px;
+  background: #000;
+}
+
+.user-activity-input {
+  border: 1px solid #97b1c1;
+  border-radius: 5px;
+}
+
+.header-background-filter {
+  backdrop-filter: brightness(0.3);
+}
+
+.minimize-button {
+  background: rgb(0, 0, 0, 0.45);
+  border-radius: 5px;
+}
+
+.unwrap-button-wrapper:hover {
+  background: rgb(0, 0, 0, 0.35);
+}
+
+.tags-input-suggestions {
+  border: 1px solid #ececec;
+  border-top: none;
+  border-radius: 5px;
+}
+
+@keyframes close-showup-animation {
+  0% {
+    clip-path: circle(0% at 93.6% 19%);
+  }
+  100% {
+    /* sqrt(2) * 100 percents */
+    clip-path: circle(141.1% at 93.6% 19%);
+  }
+}

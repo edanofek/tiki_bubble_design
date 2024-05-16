@@ -1,0 +1,112 @@
+<div class="mini-widget-container hidden">{!widget-mini!}</div>
+
+<div class="widget-wrapper">
+  <header class="close-widget-header widget-header absolute">
+    <div class="header-background-filter h-full">
+      <span class="text-white text-3xl absolute right-2 close-header-cancel"
+        >&times;</span
+      >
+      <div
+        class="flex flex-col gap-2 items-center justify-center text-white p-4"
+      >
+        <span class="text-3xl">What to do?</span>
+        <div class="flex flex-row justify-around items-center w-full">
+          <button class="minimize-button cursor-pointer p-2">Minimize</button>
+          <button class="close-header-cancel cursor-pointer underline">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <header class="widget-header flex flex-row justify-between items-center p-1">
+    <div class="header-control-icons flex flex-col h-full justify-evenly">
+      <img
+        class="control-button"
+        src="assets/icon_add_time.svg"
+        alt="add time"
+      />
+      <img
+        class="control-button"
+        src="assets/icon_add_comment.svg"
+        alt="add comment"
+      />
+    </div>
+    <div class="header-timer control-button flex flex-row gap-1">
+      <object
+        class="timer-svg"
+        data="assets/pause_button.svg"
+        alt="play/pause"
+        type="image/svg+xml"
+      ></object>
+      <b class="text-white text-4xl">59:59</b>
+    </div>
+    <div class="header-widget-controls flex flex-col h-full justify-evenly">
+      <img
+        class="close-button control-button"
+        src="assets/close.svg"
+        alt="close"
+      />
+      <img
+        class="settings-button control-button"
+        src="assets/settings.svg"
+        alt="settings"
+      />
+      <img class="pin-button control-button" src="assets/pin.svg" alt="pin" />
+    </div>
+  </header>
+  <article class="article-load mt-4 px-5"></article>
+  <footer class="widget-footer flex flex-row justify-center items-center">
+    <b class="widget-last-visit">Last visit 25.10.1917</b>
+  </footer>
+</div>
+
+<script>
+  const closeButton = document.querySelector(".close-button");
+  const settingButton = document.querySelector(".settings-button");
+  const pinButton = document.querySelector(".pin-button");
+  const closeHeader = document.querySelector(".close-widget-header");
+  const closeHeaderCancel = document.querySelectorAll(".close-header-cancel");
+  const minimizeButton = document.querySelector(".minimize-button");
+  const widgetWrapper = document.querySelector(".widget-wrapper");
+  const miniWidgetWrapper = document.querySelector(".mini-widget-container");
+  const maximizeButton = document.querySelector(".unwrap-button-wrapper");
+
+  const cancelCloseHeader = () => {
+    closeHeader.classList.remove("opened");
+    closeHeader.classList.add("closes");
+
+    closeHeader.addEventListener("animationend", function ended() {
+      closeHeader.removeEventListener("animationend", ended);
+      closeHeader.classList.remove("closes");
+    });
+  };
+
+  const openCloseHeader = () => {
+    closeHeader.classList.add("opens");
+
+    closeHeader.addEventListener("animationend", function ended() {
+      closeHeader.removeEventListener("animationend", ended);
+      closeHeader.classList.add("opened");
+      closeHeader.classList.remove("opens");
+    });
+  };
+
+  closeButton.addEventListener("click", openCloseHeader);
+
+  closeHeaderCancel.forEach((button) =>
+    button.addEventListener("click", cancelCloseHeader)
+  );
+
+  minimizeButton.addEventListener("click", () => {
+    widgetWrapper.classList.add("hidden");
+    miniWidgetWrapper.classList.remove("hidden");
+    cancelCloseHeader();
+  });
+
+  maximizeButton.addEventListener("click", () => {
+    widgetWrapper.classList.remove("hidden");
+    miniWidgetWrapper.classList.add("hidden");
+  });
+</script>

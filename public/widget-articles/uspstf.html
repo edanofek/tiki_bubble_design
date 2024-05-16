@@ -1,0 +1,36 @@
+<div class="flex flex-col gap-2">
+  {!short-header!}
+
+  <div class="horizontal-spacer my-2"></div>
+  <div class="flex flex-col gap-4">
+    <nav class="flex flex-row justify-between items-center">
+      <img
+        class="control-button navigate-left"
+        src="assets/left_arrow.svg"
+        alt="navigate left"
+      />
+      <b>USPSTF</b>
+      <img
+        class="control-button navigate-right"
+        src="assets/right_arrow.svg"
+        alt="navigate right"
+      />
+    </nav>
+  </div>
+  <div class="flex flex-col gap-1">
+    {{#questions}}
+    <div class="flex flex-row justify-between items-center">
+      <span>{{question}}: </span>
+      <div class="flex flex-row gap-2 items-center">
+        {{#answers}}
+        <div class="flex flex-row items-center">
+          <input type="radio" name="{{name}}" {{#checked}}checked{{/checked}} />
+          <label>{{answer}}</label>
+        </div>
+        {{/answers}}
+      </div>
+    </div>
+    {{/questions}}
+  </div>
+  <div></div>
+</div>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="inputs.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="libs/mustache.min.js"></script>
+
+    <script src="libs/tags-input.js"></script>
+    <link rel="stylesheet" href="tags-input.css" />
+
+    <script src="libs/script-html.js"></script>
+
+    <title>Full widget</title>
+  </head>
+  <body>
+    <main class="roboto widget-main"></main>
+
+    <script>
+      const articles = [
+        { name: "Vitals", src: "widget-articles/main.html" },
+        { name: "USPSTF", src: "widget-articles/uspstf.html" },
+        { name: "Medication", src: "widget-articles/medication.html" },
+        { name: "Lab Results", src: "widget-articles/lab-results.html" },
+        { name: "User Activity", src: "widget-articles/user-activity.html" },
+      ];
+      const components = [
+        { name: "short-header", src: "widget-articles/short-header.html" },
+        { name: "header", src: "widget-articles/header.html" },
+        { name: "widget-mini", src: "widget-articles/widget-mini.html" },
+      ];
+
+      const info = {
+        patient: {
+          name: "Thomas Rodriguez",
+          sex: "Male",
+          age: 24,
+          phone: "88005553535",
+          location: "12345",
+          mail: "mail@mail.com",
+        },
+        vitals: {
+          temp: { value: 45, grown: false, fallen: false },
+          bp: { value: "130/60", grown: true, fallen: false },
+          bsa: { value: 1.81, grown: false, fallen: false },
+          height: { value: "5'10", grown: false, fallen: false },
+          pulse: { value: 90, grown: false, fallen: true },
+          resp: { value: 30, grown: false, fallen: false },
+          bmi: { value: 22.13, grown: false, fallen: false },
+          weight: { value: 150, grown: false, fallen: false },
+        },
+        questions: [
+          {
+            name: "pregnancy",
+            question: "Pregnant",
+            answers: [
+              { answer: "yes", checked: true },
+              { answer: "no", checked: false },
+            ],
+          },
+          {
+            name: "sex-active",
+            question: "Sexually Active",
+            answers: [
+              { answer: "yes", checked: false },
+              { answer: "no", checked: false },
+            ],
+          },
+          {
+            name: "tobacco",
+            question: "Tobacco",
+            answers: [
+              { answer: "yes", checked: false },
+              { answer: "no", checked: false },
+            ],
+          },
+        ],
+        medications: [
+          { name: "Acetaminophen", amount: "500mg" },
+          { name: "Diphenhydramine", amount: "25mg" },
+          { name: "Ascorbic acid", amount: "30mg" },
+        ],
+        labResults: [
+          { name: "Blood", result: "RBC 4.6 | WBC 6" },
+          { name: "Urain", result: "normal" },
+          { name: "X-Ray", result: "normal" },
+        ],
+        userActivitySuggestions: [
+          { suggestion: "Phone call" },
+          { suggestion: "Video call" },
+          { suggestion: "Prescription renewal" },
+          { suggestion: "Appointment scheduling" },
+        ],
+      };
+
+      const widgetMain = document.querySelector(".widget-main");
+
+      window.fetchArticle = (src) => {
+        return fetch(src).then((response) => response.text());
+      };
+
+      const render = (html) => {
+        // replacing all component replacements with actual html
+        // this replaces all {!componentName!} in the file
+        // with the actual component
+        for (const component of components) {
+          html = html.replaceAll(
+            `{!${component.name}!}`,
+            component.fetchedHTML
+          );
+        }
+
+        return Mustache.render(html, info);
+      };
+
+      const onArticlesLoaded = (fetchedArticles) => {
+        const articleLoad = document.querySelector(".article-load");
+        let currentArticle = 4;
+
+        const loadArticle = (index) => {
+          setInnerHTML(articleLoad, render(fetchedArticles[index].fetchedHTML));
+
+          // as header also always rerenders, we need to add new listeners
+          // to newly rendered navigation buttons
+          let leftButton = document.querySelector(".navigate-left");
+          let rightButton = document.querySelector(".navigate-right");
+
+          leftButton.addEventListener("click", () => {
+            currentArticle =
+              currentArticle - 1 == -1
+                ? articles.length - 1
+                : currentArticle - 1;
+
+            loadArticle(currentArticle);
+          });
+
+          rightButton.addEventListener("click", () => {
+            currentArticle = (currentArticle + 1) % articles.length;
+            loadArticle(currentArticle);
+          });
+        };
+
+        loadArticle(currentArticle);
+      };
+
+      // fetching all articles and components
+      // and settings for all of them fetchedHTML for later use
+      Promise.all(
+        [...articles, ...components].map((article) =>
+          fetchArticle(article.src).then((html) => (article.fetchedHTML = html))
+        )
+      )
+      .then(() => fetchArticle("layout.html"))
+      .then((widget) => setInnerHTML(widgetMain, render(widget)))
+      .then(() => onArticlesLoaded(articles));
+    </script>
+  </body>
+</html>

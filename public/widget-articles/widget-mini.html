@@ -1,0 +1,44 @@
+<div class="flex flex-row justify-between">
+  <div class="py-3 pl-5">
+    <div class="header-timer control-button flex flex-row gap-3">
+      <object
+        class="timer-svg"
+        data="assets/pause_button.svg"
+        alt="play/pause"
+        type="image/svg+xml"
+      ></object>
+      <b class="text-white text-4xl">59:59</b>
+    </div>
+  </div>
+  <div
+    class="unwrap-button-wrapper control-button flex flex-row justify-center items-center w-14 transition-all"
+  >
+    <img src="assets/unwrap.svg" alt="maximize" />
+  </div>
+</div>
+
+<script>
+  let progress = 0;
+  let icon = 0;
+  let color = 0;
+  const timerObject = document.querySelector(".timer-svg");
+
+  const load = async () => {
+    const timer = timerObject.contentWindow.document.querySelector("svg");
+
+    const play = await fetchArticle("assets/play.svg");
+    const pause = await fetchArticle("assets/pause.svg");
+
+    setInterval(() => {
+      timer.setProgress(progress % 100);
+      timer.setColor(`#${color.toString(16)}`);
+      timer.setIcon(icon % 50 > 25 ? play : pause);
+
+      progress++;
+      color++;
+      icon++;
+    }, 50);
+  };
+
+  timerObject.addEventListener("load", load);
+</script>

@@ -1,0 +1,103 @@
+<div class="flex flex-col gap-2">
+  {!header!}
+
+  <div class="horizontal-spacer my-2"></div>
+  <div class="flex flex-col gap-4">
+    <nav class="flex flex-row justify-between items-center">
+      <img
+        class="control-button navigate-left"
+        src="assets/left_arrow.svg"
+        alt="navigate left"
+      />
+      <b>User Activity</b>
+      <img
+        class="control-button navigate-right"
+        src="assets/right_arrow.svg"
+        alt="navigate right"
+      />
+    </nav>
+  </div>
+  <div>
+    <input
+      id="user-activity-input"
+      class="user-activity-input w-full"
+      type="text"
+    />
+    <div class="tags-input-suggestions absolute bg-white p-4 hidden">
+      {{#userActivitySuggestions}}
+      <div class="flex flex-row gap-2 items-center">
+        <input
+          type="checkbox"
+          oninput="suggestionClicked('{{suggestion}}', this)"
+        />
+        <label>{{suggestion}}</label>
+      </div>
+      {{/userActivitySuggestions}}
+    </div>
+  </div>
+  <div></div>
+
+  <script>
+    window.tagInput = new TagsInput({
+      selector: "user-activity-input",
+      duplicate: false,
+    });
+  </script>
+
+  <script>
+    window.suggestions = document.querySelector(".tags-input-suggestions");
+    window.tagsWrapper = document.querySelector(".tags-input-wrapper");
+    window.input = tagsWrapper.querySelector("input");
+
+    window.loadUserActivity = () => {
+      const inputBox = tagsWrapper.getBoundingClientRect();
+
+      suggestions.style.width = `${inputBox.width}px`;
+    };
+
+    window.findCheckboxWithSuggestion = (tagContent) => {
+      return [...suggestions.querySelectorAll("label")]
+        .filter((label) => label.textContent === tagContent)[0]
+        ?.parentNode.querySelector("input");
+    };
+
+    document.body.addEventListener("mousedown", (event) => {
+      if (event.target.closest(".tags-input-suggestions")) return;
+
+      suggestions.classList.add("hidden");
+    });
+
+    input.addEventListener("focus", () => {
+      suggestions.classList.remove("hidden");
+    });
+
+    window.suggestionClicked = (suggestion, checkbox) => {
+      if (checkbox.checked) return tagInput.addTag(suggestion);
+
+      const tags = [...tagsWrapper.childNodes];
+      const tag = tags.filter(
+        (addedTag) => addedTag.childNodes[0]?.textContent === suggestion
+      )[0];
+      const index = tags.indexOf(tag);
+
+      tagInput.deleteTag(tag, index);
+    };
+
+    window.tagInput.onDelete = (tag, i) => {
+      const tagContent = tag.childNodes[0].textContent;
+      const checkbox = findCheckboxWithSuggestion(tagContent);
+      if (!checkbox) return;
+
+      checkbox.checked = false;
+    };
+
+    window.tagInput.onAdd = (tagContent) => {
+      const checkbox = findCheckboxWithSuggestion(tagContent);
+      if (!checkbox) return;
+
+      checkbox.checked = true;
+    };
+
+    setTimeout(loadUserActivity, 100);
+  </script>
+</div>

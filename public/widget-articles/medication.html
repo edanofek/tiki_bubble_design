@@ -1,0 +1,32 @@
+<div class="flex flex-col gap-2">
+  {!short-header!}
+
+  <div class="horizontal-spacer my-2"></div>
+  <div class="flex flex-col gap-4">
+    <nav class="flex flex-row justify-between items-center">
+      <img
+        class="control-button navigate-left"
+        src="assets/left_arrow.svg"
+        alt="navigate left"
+      />
+      <b>Medication</b>
+      <img
+        class="control-button navigate-right"
+        src="assets/right_arrow.svg"
+        alt="navigate right"
+      />
+    </nav>
+  </div>
+  <div class="flex flex-col gap-1">
+    <div class="flex flex-col gap-2">
+      {{#medications}}
+      <div class="medication__entry flex flex-row justify-between items-center">
+        <span class="treat-name">{{ name }}</span>
+        <div class="medication-divider"></div>
+        <span class="treat-amount">{{ amount }}</span>
+      </div>
+      {{/medications}}
+    </div>
+  </div>
+  <div></div>
+</div>
